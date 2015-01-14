@@ -2,6 +2,9 @@ package com.mio.jersey.todo.modelo;
 
 import java.util.ArrayList;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Factura 
 {
 	private ArrayList<Usuario> usuarios;
