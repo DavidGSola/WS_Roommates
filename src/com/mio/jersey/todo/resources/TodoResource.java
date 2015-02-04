@@ -78,7 +78,7 @@ public class TodoResource {
 		else 
 			res = Response.created(uriInfo.getAbsolutePath()).build();
 		
-		TodoDao.instance.getModel().put(todo.getId(), todo);
+		TodoDao.instance.getModel().put(todo.getId()+"", todo);
 		
 		return res;
 	}
