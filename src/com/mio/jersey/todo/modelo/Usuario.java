@@ -1,18 +1,30 @@
 package com.mio.jersey.todo.modelo;
 import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
 
+@Entity
 @XmlRootElement
 public class Usuario 
 {
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE)
+	private long id;
+	
 	private String nombre;
 	
 	private String email;
 	
-	private ArrayList<Compra> mCompras;
+//	private List<Compra> mCompras = new ArrayList<>();
 
-	private ArrayList<Factura> mFacturas;
+//	private List<Factura> mFacturas = new ArrayList<>();
 	
 	public Usuario()
 	{
@@ -21,10 +33,19 @@ public class Usuario
   
 	public Usuario (String nombre, String email)
 	{
+//		this.id = id;
 		this.nombre = nombre;
 		this.email = email;
 	}
  
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
 	public String getNombre() 
 	{
 		return nombre;
@@ -44,24 +65,26 @@ public class Usuario
 	{
 		this.email = email;
 	}
-	
-	public ArrayList<Compra> getCompras() 
-	{
-		return mCompras;
-	}
 
-	public void setCompras(ArrayList<Compra> compras) 
-	{
-		this.mCompras = compras;
-	}
+//	@ManyToMany
+//	public List<Compra> getCompras() 
+//	{
+//		return mCompras;
+//	}
+//
+//	public void setCompras(List<Compra> compras) 
+//	{
+//		this.mCompras = compras;
+//	}
 
-	public ArrayList<Factura> getFacturas() 
-	{
-		return mFacturas;
-	}
-
-	public void setFacturas(ArrayList<Factura> facturas) 
-	{
-		this.mFacturas = facturas;
-	}
+//	@ManyToMany
+//	public List<Factura> getFacturas() 
+//	{
+//		return mFacturas;
+//	}
+//
+//	public void setFacturas(List<Factura> facturas) 
+//	{
+//		this.mFacturas = facturas;
+//	}
 }

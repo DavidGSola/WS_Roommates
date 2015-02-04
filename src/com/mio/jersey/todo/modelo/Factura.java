@@ -2,14 +2,21 @@ package com.mio.jersey.todo.modelo;
 
 import java.util.ArrayList;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlRootElement;
 
+@Entity
 @XmlRootElement
 public class Factura 
 {
-	private ArrayList<Usuario> usuarios;
-	
-	private String id;
+//	private ArrayList<Usuario> usuarios;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE)
+	private long id;
 	
 	private String nombre;
 	
@@ -19,22 +26,22 @@ public class Factura
 	
 	private double cantidad;
 
-	public ArrayList<Usuario> getUsuarios() 
-	{
-		return usuarios;
-	}
+//	public ArrayList<Usuario> getUsuarios() 
+//	{
+//		return usuarios;
+//	}
+//
+//	public void setUsuarios(ArrayList<Usuario> usuarios) 
+//	{
+//		this.usuarios = usuarios;
+//	}
 
-	public void setUsuarios(ArrayList<Usuario> usuarios) 
-	{
-		this.usuarios = usuarios;
-	}
-
-	public String getId() 
+	public long getId() 
 	{
 		return id;
 	}
 
-	public void setId(String id) 
+	public void setId(long id) 
 	{
 		this.id = id;
 	}

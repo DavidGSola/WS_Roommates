@@ -1,13 +1,20 @@
 package com.mio.jersey.todo.modelo;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlRootElement;
 
+@Entity
 @XmlRootElement
 public class Compra 
 {
 	private Usuario usuario;
 
-	private String id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE)
+	private long id;
 	
 	private String nombre;
 	
@@ -22,7 +29,7 @@ public class Compra
 		
 	}
 	
-	public Compra(Usuario usuario, String id, String nombre, String descripcion, String fecha)
+	public Compra(Usuario usuario, long id, String nombre, String descripcion, String fecha)
 	{
 		this.usuario = usuario;
 		this.id = id;
@@ -41,12 +48,12 @@ public class Compra
 		this.usuario = usuario;
 	}
 
-	public String getId() 
+	public long getId() 
 	{
 		return id;
 	}
 
-	public void setId(String id) 
+	public void setId(long id) 
 	{
 		this.id = id;
 	}

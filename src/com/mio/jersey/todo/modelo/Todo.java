@@ -19,9 +19,9 @@ public class Todo {
 	
 	}
   
-	public Todo (int id, String resumen)
+	public Todo (String resumen)
 	{
-		this.id = id;
+//		this.id = id;
 		this.resumen = resumen;
 	}
   

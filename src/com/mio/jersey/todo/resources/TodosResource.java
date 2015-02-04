@@ -71,7 +71,7 @@ public class TodosResource {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public void newTodo(@FormParam("id") String id, @FormParam("resumen") String resumen, @FormParam("descripcion") String descripcion, @Context HttpServletResponse servletResponse) throws IOException 
 	{
-		Todo todo = new Todo(Integer.parseInt(id), resumen);
+		Todo todo = new Todo(resumen);
 		if (descripcion != null) 
 		todo.setDescripcion(descripcion);
 		
