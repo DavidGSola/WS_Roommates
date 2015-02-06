@@ -21,8 +21,8 @@ import com.mio.jersey.todo.modelo.Respuesta;
 import com.mio.jersey.todo.modelo.Usuario;
 
 // Hara corresponder el recurso al URL todos
-@Path("/usuarios")
-public class UsuariosResource {
+@Path("/facturas")
+public class FacturasResource {
 
 	// Permite insertar objetos contextuales en la clase,
 	// e.g. ServletContext, Request, Response, UriInfo
@@ -33,7 +33,7 @@ public class UsuariosResource {
 
 	@GET
 	@Produces({ MediaType.TEXT_XML, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public List<Usuario> getTodos() 
+	public List<Usuario> get() 
 	{
 		List<Usuario> todos = BDUsuario.listarUsuarios();
 		
@@ -43,7 +43,7 @@ public class UsuariosResource {
 	@GET
 	@Path("count")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String getCount() 
+	public String count() 
 	{
 		List<Usuario> todos = BDUsuario.listarUsuarios();
 		int count = todos.size();
@@ -54,7 +54,7 @@ public class UsuariosResource {
 	@POST
 	@Produces({ MediaType.TEXT_XML, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Respuesta nuevoUsuario(@FormParam("email") String email, @FormParam("nombre") String nombre, @Context HttpServletResponse servletResponse) throws IOException 
+	public Respuesta nueva(@FormParam("email") String email, @FormParam("nombre") String nombre, @Context HttpServletResponse servletResponse) throws IOException 
 	{
 		Usuario usr = new Usuario(nombre, email);
 		
