@@ -15,7 +15,7 @@
 			<property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" />
 
 			<property name="javax.persistence.jdbc.url"
-				value="jdbc:derby:C:\Users\Austregisilo\Desktop\antoniotoro.davidgonzalez;create=true" />
+				value="jdbc:derby:C:\Users\DavidGSola\Downloads\db-derby-10.11.1.1-bin\db-derby-10.11.1.1-bin\baseDatos\bdRoommates;create=true" />
 
 			<property name="javax.persistence.jdbc.user" value="test" />
 

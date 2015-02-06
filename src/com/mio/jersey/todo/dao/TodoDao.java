@@ -36,7 +36,7 @@ public enum TodoDao
 
 		em.persist(todo1);
 		
-		Usuario usr = new Usuario("wala","wolo");
+		Usuario usr = new Usuario("wala","woolo");
 		em.persist(usr);
 		
 		em.getTransaction().commit();
