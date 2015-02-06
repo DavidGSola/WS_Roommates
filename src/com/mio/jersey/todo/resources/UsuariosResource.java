@@ -19,6 +19,7 @@ import javax.ws.rs.core.UriInfo;
 
 import com.mio.jersey.todo.dao.BDUsuario;
 import com.mio.jersey.todo.dao.TodoDao;
+import com.mio.jersey.todo.modelo.Respuesta;
 import com.mio.jersey.todo.modelo.Todo;
 import com.mio.jersey.todo.modelo.Usuario;
 
@@ -33,19 +34,8 @@ public class UsuariosResource {
 	@Context
 	Request request;
 
-	// Devolvera la lista de los "todos" en el navegador del usuario
 	@GET
-	@Produces(MediaType.TEXT_XML)
-	public List<Usuario> getUsuariosBrowser() 
-	{
-		List<Usuario> todos = BDUsuario.listarUsuarios();
-		
-		return todos;
-	}
-
-	// Devolvera la lista de los "todos" en las aplicaciones
-	@GET
-	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@Produces({ MediaType.TEXT_XML, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public List<Usuario> getTodos() 
 	{
 		List<Usuario> todos = BDUsuario.listarUsuarios();
@@ -53,9 +43,6 @@ public class UsuariosResource {
 		return todos;
 	}
 
-	// Devuelve el numero de "todos" que hay
-	// Utilizar http://localhost:8080/mio.com.jersey.todo/rest/todos/count
-	// para obtener el numero total de registros
 	@GET
 	@Path("count")
 	@Produces(MediaType.TEXT_PLAIN)
@@ -68,17 +55,27 @@ public class UsuariosResource {
 	}
 
 	@POST
-	@Produces(MediaType.TEXT_HTML)
+	@Produces({ MediaType.TEXT_XML, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public void newTodo(@FormParam("id") String id, @FormParam("resumen") String resumen, @FormParam("descripcion") String descripcion, @Context HttpServletResponse servletResponse) throws IOException 
+	public Respuesta nuevoUsuario(@FormParam("email") String email, @FormParam("nombre") String nombre, @Context HttpServletResponse servletResponse) throws IOException 
 	{
-		Todo todo = new Todo(resumen);
-		if (descripcion != null) 
-		todo.setDescripcion(descripcion);
+		Usuario usr = new Usuario(nombre, email);
 		
-		TodoDao.instance.getModel().put(id, todo);
+		if (!BDUsuario.existeEmail(email)) {
+			BDUsuario.insertar(usr);
+			
+			return new Respuesta(false, "Usuario añadido correctamente");
+		} else {
+			return new Respuesta(true, "Usuario existente");
+		}
 		
-		servletResponse.sendRedirect("../crear_todo.html");
+//		Todo todo = new Todo(nombre);
+//		if (descripcion != null) 
+//		todo.setDescripcion(descripcion);
+//		
+//		TodoDao.instance.getModel().put(email, todo);
+		
+//		servletResponse.sendRedirect("../crear_todo.html");
 	}
 
 	// Define que el siguiente parametro en el path despues de "todos" es
