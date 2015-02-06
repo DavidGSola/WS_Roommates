@@ -8,7 +8,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-import com.mio.jersey.todo.modelo.Todo;
 import com.mio.jersey.todo.modelo.Usuario;
 
 public class BDUsuario {
@@ -123,7 +122,7 @@ public class BDUsuario {
 	public static Usuario seleccionarUsuarioPorId(long id) {
 		EntityManager em = factoria.createEntityManager();
 		Query q = em.createQuery(
-				"SELECT u from Usuario u WHERE u.id LIKE :idUsuario")
+				"SELECT u from Usuario u WHERE u.id = :idUsuario")
 				.setParameter("idUsuario", id);
 		
 		Usuario usuario;
