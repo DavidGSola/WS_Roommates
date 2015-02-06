@@ -35,6 +35,7 @@ public class Compra
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.fecha = fecha;
+		this.urgente = false;
 	}
 
 	public Usuario getUsuario() 
