@@ -12,8 +12,10 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import javax.xml.bind.JAXBElement;
 
+import com.mio.jersey.todo.dao.BDUsuario;
 import com.mio.jersey.todo.dao.TodoDao;
 import com.mio.jersey.todo.modelo.Todo;
+import com.mio.jersey.todo.modelo.Usuario;
 
 public class UsuarioResource {
 	@Context
@@ -31,26 +33,14 @@ public class UsuarioResource {
 
 	//Integracion de aplicaciones 
 	@GET
-	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public Todo getUsuario() 
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+	public Usuario getUsuario() 
 	{
-		Todo todo = TodoDao.instance.getModel().get(email);
-		if(todo==null)
-			throw new RuntimeException("Get: Todo con " + email + " no se ha encontrado");
+		Usuario usr = BDUsuario.seleccionarUsuario(email);
+		if(usr==null)
+			throw new RuntimeException("Get: Usuario con " + email + " no se ha encontrado");
 	
-		return todo;
-	}
-
-	// Para el navegador
-	@GET
-	@Produces(MediaType.TEXT_XML)
-	public Todo getTodoHTML() 
-	{
-		Todo todo = TodoDao.instance.getModel().get(email);
-		if(todo==null)
-			throw new RuntimeException("Get: Todo con " + email + " no se ha encontrado");
-		
-		return todo;
+		return usr;
 	}
 
 	@PUT
@@ -65,8 +55,10 @@ public class UsuarioResource {
 	@DELETE
 	public void deleteTodo() 
 	{
-		Todo c = TodoDao.instance.getModel().remove(email);
-		if(c==null)
+		Usuario usr = BDUsuario.seleccionarUsuario(email);
+		if(usr!=null)
+			BDUsuario.eliminar(usr);
+		else 
 			throw new RuntimeException("Delete: Todo con " + email + " no se ha encontrado");
 	}
 

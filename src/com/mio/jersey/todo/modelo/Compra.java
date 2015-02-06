@@ -29,10 +29,9 @@ public class Compra
 		
 	}
 	
-	public Compra(Usuario usuario, long id, String nombre, String descripcion, String fecha)
+	public Compra(Usuario usuario, String nombre, String descripcion, String fecha)
 	{
 		this.usuario = usuario;
-		this.id = id;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.fecha = fecha;
