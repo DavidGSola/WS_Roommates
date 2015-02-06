@@ -8,6 +8,7 @@
 
 		<class>com.mio.jersey.todo.modelo.Todo</class>
 		<class>com.mio.jersey.todo.modelo.Usuario</class>
+		<class>com.mio.jersey.todo.modelo.Compra</class>
 
 		<properties>
 

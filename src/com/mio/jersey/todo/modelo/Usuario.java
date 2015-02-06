@@ -22,7 +22,7 @@ public class Usuario
 	
 	private String email;
 	
-//	private List<Compra> mCompras = new ArrayList<>();
+	private List<Compra> compras = new ArrayList<>();
 
 //	private List<Factura> mFacturas = new ArrayList<>();
 	
@@ -66,16 +66,16 @@ public class Usuario
 		this.email = email;
 	}
 
-//	@ManyToMany
-//	public List<Compra> getCompras() 
-//	{
-//		return mCompras;
-//	}
-//
-//	public void setCompras(List<Compra> compras) 
-//	{
-//		this.mCompras = compras;
-//	}
+	@ManyToMany
+	public List<Compra> getCompras() 
+	{
+		return compras;
+	}
+
+	public void setCompras(List<Compra> compras) 
+	{
+		this.compras = compras;
+	}
 
 //	@ManyToMany
 //	public List<Factura> getFacturas() 
