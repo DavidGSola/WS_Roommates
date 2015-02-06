@@ -1,6 +1,7 @@
 package com.mio.jersey.todo.resources;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -17,12 +18,13 @@ import javax.ws.rs.core.Request;
 import javax.ws.rs.core.UriInfo;
 
 import com.mio.jersey.todo.dao.BDUsuario;
+import com.mio.jersey.todo.modelo.Compra;
 import com.mio.jersey.todo.modelo.Respuesta;
 import com.mio.jersey.todo.modelo.Usuario;
 
 // Hara corresponder el recurso al URL todos
-@Path("/usuarios")
-public class UsuariosResource {
+@Path("/compras")
+public class ComprasResource {
 
 	// Permite insertar objetos contextuales en la clase,
 	// e.g. ServletContext, Request, Response, UriInfo
@@ -33,20 +35,20 @@ public class UsuariosResource {
 
 	@GET
 	@Produces({ MediaType.TEXT_XML, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public List<Usuario> getTodos() 
+	public List<Compra> get() 
 	{
-		List<Usuario> todos = BDUsuario.listarUsuarios();
+		List<Compra> lista = null;
 		
-		return todos;
+		return lista;
 	}
 
 	@GET
 	@Path("count")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String getCount() 
+	public String count() 
 	{
-		List<Usuario> todos = BDUsuario.listarUsuarios();
-		int count = todos.size();
+		List<Compra> lista = null;
+		int count = lista.size();
 	
 		return String.valueOf(count);
 	}
@@ -54,16 +56,17 @@ public class UsuariosResource {
 	@POST
 	@Produces({ MediaType.TEXT_XML, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Respuesta nuevoUsuario(@FormParam("email") String email, @FormParam("nombre") String nombre, @Context HttpServletResponse servletResponse) throws IOException 
+	public Respuesta nueva(@FormParam("usuario") String usuario, @FormParam("descripcion") String descripcion, @FormParam("nombre") String nombre, @Context HttpServletResponse servletResponse) throws IOException 
 	{
-		Usuario usr = new Usuario(nombre, email);
+		Usuario usr = BDUsuario.seleccionarUsuario(usuario);
 		
-		if (!BDUsuario.existeEmail(email)) {
-			BDUsuario.insertar(usr);
+		if (usr != null) {
+			String fecha = new Date().getTime()+"";
+			Compra c = new Compra(usr, nombre, descripcion, fecha);
 			
-			return new Respuesta(false, "Usuario añadido correctamente");
+			return new Respuesta(false, "Compra aniadida correctamente");
 		} else {
-			return new Respuesta(true, "Usuario existente");
+			return new Respuesta(true, "Usuario inexistente");
 		}
 		
 	}
@@ -72,9 +75,9 @@ public class UsuariosResource {
 	// tratado como un parametro y pasado al recurso TodoResources
 	// Permite escribir http://localhost:8080/com.mio.jersey.todo/rest/todos/1
 	// 1 sera tratado como un parametro "todo" y pasado al recurso TodoResource
-	@Path("{usuario}")
-	public UsuarioResource manageUsuario(@PathParam("usuario") String email) 
+	@Path("{compra}")
+	public CompraResource manage(@PathParam("compra") String id) 
 	{
-		return new UsuarioResource(uriInfo, request, email);
+		return new CompraResource(uriInfo, request, id);
 	}
 }
