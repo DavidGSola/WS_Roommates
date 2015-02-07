@@ -77,9 +77,9 @@ public class FacturasResource {
 	// tratado como un parametro y pasado al recurso TodoResources
 	// Permite escribir http://localhost:8080/com.mio.jersey.todo/rest/todos/1
 	// 1 sera tratado como un parametro "todo" y pasado al recurso TodoResource
-	@Path("{usuario}")
-	public UsuarioResource manageUsuario(@PathParam("usuario") String email) 
+	@Path("{factura}")
+	public FacturaResource manage(@PathParam("factura") long id) 
 	{
-		return new UsuarioResource(uriInfo, request, email);
+		return new FacturaResource(uriInfo, request, id);
 	}
 }
