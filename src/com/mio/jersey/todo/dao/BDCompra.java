@@ -116,7 +116,7 @@ public class BDCompra {
 	}
 	
 	/**
-	 * Recupera una de la BD.
+	 * Recupera una Compra de la BD.
 	 * @param id Id de la compra que se quiere recuperar
 	 * @return La Compra si se ha encontrado, <tt>null</tt> en caso contrario.
 	 */
@@ -141,7 +141,7 @@ public class BDCompra {
 	 * Lista todas las compras de la BD.
 	 * @return Lista que contiene las compras
 	 */
-	public static List<Compra> listarCompra() {
+	public static List<Compra> listarCompras() {
 		EntityManager em = factoria.createEntityManager();
 		Query q = em.createQuery("SELECT u from Compra u");
 		
