@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import javax.xml.bind.JAXBElement;
 
+import com.mio.jersey.todo.dao.BDCompra;
 import com.mio.jersey.todo.dao.TodoDao;
 import com.mio.jersey.todo.modelo.Compra;
 import com.mio.jersey.todo.modelo.Todo;
@@ -21,9 +22,9 @@ public class CompraResource {
 	UriInfo uriInfo;
 	@Context
 	Request request;
-	String id;
+	long id;
 	
-	public CompraResource(UriInfo uriInfo, Request request, String id) 
+	public CompraResource(UriInfo uriInfo, Request request, long id) 
 	{
 		this.uriInfo = uriInfo;
 		this.request = request;
@@ -35,7 +36,7 @@ public class CompraResource {
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
 	public Compra get() 
 	{
-		Compra compra = null;
+		Compra compra = BDCompra.seleccionarCompra(id);
 		if(compra==null)
 			throw new RuntimeException("Get: Compra " + id + " no encontrada");
 	
@@ -45,7 +46,7 @@ public class CompraResource {
 	@PUT
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response put(JAXBElement<Todo> todo) 
-	{
+	{ //TODO Modificar esto, que no se bien para que sirve
 		Todo c = todo.getValue();
 		
 		return putAndGetResponse(c);
@@ -54,15 +55,15 @@ public class CompraResource {
 	@DELETE
 	public void delete() 
 	{
-		Compra compra = null;
+		Compra compra = BDCompra.seleccionarCompra(id);
 		if(compra!=null)
-			;//Eliminar
+			BDCompra.eliminar(compra);
 		else 
 			throw new RuntimeException("Delete: Compra " + id + " no encontrada");
 	}
 
 	private Response putAndGetResponse(Todo todo) 
-	{
+	{ //TODO Modificar esto, que no se bien para que sirve
 		Response res;
 		if(TodoDao.instance.getModel().containsKey(todo.getId()))
 			res = Response.noContent().build();

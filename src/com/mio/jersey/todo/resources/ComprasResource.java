@@ -17,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.UriInfo;
 
+import com.mio.jersey.todo.dao.BDCompra;
 import com.mio.jersey.todo.dao.BDUsuario;
 import com.mio.jersey.todo.modelo.Compra;
 import com.mio.jersey.todo.modelo.Respuesta;
@@ -37,7 +38,7 @@ public class ComprasResource {
 	@Produces({ MediaType.TEXT_XML, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public List<Compra> get() 
 	{
-		List<Compra> lista = null;
+		List<Compra> lista = BDCompra.listarCompras();
 		
 		return lista;
 	}
@@ -47,7 +48,7 @@ public class ComprasResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String count() 
 	{
-		List<Compra> lista = null;
+		List<Compra> lista =  BDCompra.listarCompras();
 		int count = lista.size();
 	
 		return String.valueOf(count);
@@ -63,12 +64,11 @@ public class ComprasResource {
 		if (usr != null) {
 			String fecha = new Date().getTime()+"";
 			Compra c = new Compra(usr, nombre, descripcion, fecha);
-			
+			BDCompra.insertar(c);
 			return new Respuesta(false, "Compra aniadida correctamente");
 		} else {
 			return new Respuesta(true, "Usuario inexistente");
 		}
-		
 	}
 
 	// Define que el siguiente parametro en el path despues de "todos" es
@@ -76,7 +76,7 @@ public class ComprasResource {
 	// Permite escribir http://localhost:8080/com.mio.jersey.todo/rest/todos/1
 	// 1 sera tratado como un parametro "todo" y pasado al recurso TodoResource
 	@Path("{compra}")
-	public CompraResource manage(@PathParam("compra") String id) 
+	public CompraResource manage(@PathParam("compra") long id) 
 	{
 		return new CompraResource(uriInfo, request, id);
 	}
