@@ -38,11 +38,11 @@ public class FacturasResource {
 
 	@GET
 	@Produces({ MediaType.TEXT_XML, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public List<Usuario> get() 
+	public List<Factura> get() 
 	{
-		List<Usuario> todos = BDUsuario.listarUsuarios();
+		List<Factura> lista = BDFactura.listarFacturas();
 		
-		return todos;
+		return lista;
 	}
 
 	@GET
@@ -50,8 +50,8 @@ public class FacturasResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String count() 
 	{
-		List<Usuario> todos = BDUsuario.listarUsuarios();
-		int count = todos.size();
+		List<Factura> lista = BDFactura.listarFacturas();
+		int count = lista.size();
 	
 		return String.valueOf(count);
 	}
