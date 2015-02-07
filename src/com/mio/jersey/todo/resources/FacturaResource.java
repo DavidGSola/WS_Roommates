@@ -12,24 +12,23 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import javax.xml.bind.JAXBElement;
 
-import com.mio.jersey.todo.dao.BDUsuario;
+import com.mio.jersey.todo.dao.BDFactura;
 import com.mio.jersey.todo.dao.TodoDao;
 import com.mio.jersey.todo.modelo.Factura;
 import com.mio.jersey.todo.modelo.Todo;
-import com.mio.jersey.todo.modelo.Usuario;
 
 public class FacturaResource {
 	@Context
 	UriInfo uriInfo;
 	@Context
 	Request request;
-	String id;
+	long id;
 	
-	public FacturaResource(UriInfo uriInfo, Request request, String email) 
+	public FacturaResource(UriInfo uriInfo, Request request, long id) 
 	{
 		this.uriInfo = uriInfo;
 		this.request = request;
-		this.id = email;
+		this.id = id;
 	}
 
 	//Integracion de aplicaciones 
@@ -37,7 +36,7 @@ public class FacturaResource {
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
 	public Factura get() 
 	{
-		Factura fct = new Factura();
+		Factura fct = BDFactura.seleccionarFactura(id);
 		if(fct==null)
 			throw new RuntimeException("Get: Factura " + id + " no encontrada");
 	
@@ -47,7 +46,7 @@ public class FacturaResource {
 	@PUT
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response put(JAXBElement<Todo> todo) 
-	{
+	{ //TODO Modificar esto, que no se bien para que sirve
 		Todo c = todo.getValue();
 		
 		return putAndGetResponse(c);
@@ -56,15 +55,15 @@ public class FacturaResource {
 	@DELETE
 	public void delete() 
 	{
-		Factura usr = new Factura();
-		if(usr!=null)
-			;//eliminar
+		Factura fct = BDFactura.seleccionarFactura(id);
+		if(fct!=null)
+			BDFactura.eliminar(fct);
 		else 
-			throw new RuntimeException("Delete: Todo con " + id + " no se ha encontrado");
+			throw new RuntimeException("Delete: Factura " + id + " no encontrada");
 	}
 
 	private Response putAndGetResponse(Todo todo) 
-	{
+	{ //TODO Modificar esto, que no se bien para que sirve
 		Response res;
 		if(TodoDao.instance.getModel().containsKey(todo.getId()))
 			res = Response.noContent().build();

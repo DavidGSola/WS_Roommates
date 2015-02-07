@@ -1,6 +1,7 @@
 package com.mio.jersey.todo.resources;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +17,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.UriInfo;
 
+import com.mio.jersey.todo.dao.BDCompra;
+import com.mio.jersey.todo.dao.BDFactura;
 import com.mio.jersey.todo.dao.BDUsuario;
+import com.mio.jersey.todo.modelo.Compra;
+import com.mio.jersey.todo.modelo.Factura;
 import com.mio.jersey.todo.modelo.Respuesta;
 import com.mio.jersey.todo.modelo.Usuario;
 
@@ -54,18 +59,18 @@ public class FacturasResource {
 	@POST
 	@Produces({ MediaType.TEXT_XML, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Respuesta nueva(@FormParam("email") String email, @FormParam("nombre") String nombre, @Context HttpServletResponse servletResponse) throws IOException 
+	public Respuesta nueva(@FormParam("email") String usuario, @FormParam("nombre") String nombre, @FormParam("descripcion") String descripcion, @FormParam("cantidad") double cantidad, @Context HttpServletResponse servletResponse) throws IOException 
 	{
-		Usuario usr = new Usuario(nombre, email);
+		Usuario usr = BDUsuario.seleccionarUsuario(usuario);
 		
-		if (!BDUsuario.existeEmail(email)) {
-			BDUsuario.insertar(usr);
-			
-			return new Respuesta(false, "Usuario añadido correctamente");
+		if (usr != null) {
+			String fecha = new Date().getTime()+"";
+			Factura f = new Factura(nombre, descripcion, fecha, cantidad, usuario);
+			BDFactura.insertar(f);
+			return new Respuesta(false, "Compra aniadida correctamente");
 		} else {
-			return new Respuesta(true, "Usuario existente");
+			return new Respuesta(true, "Usuario inexistente");
 		}
-		
 	}
 
 	// Define que el siguiente parametro en el path despues de "todos" es
