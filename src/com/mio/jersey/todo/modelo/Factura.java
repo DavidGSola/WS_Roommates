@@ -1,6 +1,7 @@
 package com.mio.jersey.todo.modelo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Factura 
 {
-//	private ArrayList<Usuario> usuarios;
+	private List<Usuario> usuariosSinPagar;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
@@ -26,15 +27,29 @@ public class Factura
 	
 	private double cantidad;
 
-//	public ArrayList<Usuario> getUsuarios() 
-//	{
-//		return usuarios;
-//	}
-//
-//	public void setUsuarios(ArrayList<Usuario> usuarios) 
-//	{
-//		this.usuarios = usuarios;
-//	}
+	public Factura()
+	{
+		usuariosSinPagar = new ArrayList<Usuario>();
+	}
+	
+	public Factura(String nombre, String descripcion, String fechaCreacion, double cantidad, List<Usuario> usuarios)
+	{
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+		this.fechaCreacion = fechaCreacion;
+		this.cantidad = cantidad;
+		this.usuariosSinPagar = new ArrayList<Usuario> (usuarios);
+	}
+	
+	public List<Usuario> getUsuarios() 
+	{
+		return usuariosSinPagar;
+	}
+
+	public void setUsuarios(List<Usuario> usuarios) 
+	{
+		this.usuariosSinPagar = new ArrayList<Usuario> (usuarios);
+	}
 
 	public long getId() 
 	{
@@ -84,5 +99,15 @@ public class Factura
 	public void setCantidad(double cantidad) 
 	{
 		this.cantidad = cantidad;
+	}
+	
+	/**
+	 * Elimina un usuario de la lista de usuarios a pagar
+	 * a partir de su posición
+	 * @param index Posición del usuario en la lista
+	 */
+	public void quitarUsuario(int index)
+	{
+		usuariosSinPagar.remove(index);
 	}
 }

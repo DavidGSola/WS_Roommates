@@ -1,5 +1,6 @@
 package com.mio.jersey.todo.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +10,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-import com.mio.jersey.todo.modelo.Compra;
+import com.mio.jersey.todo.modelo.Factura;
 import com.mio.jersey.todo.modelo.Todo;
 import com.mio.jersey.todo.modelo.Usuario;
 public enum TodoDao 
@@ -37,11 +38,11 @@ public enum TodoDao
 
 		em.persist(todo1);
 		
-		Usuario usr = new Usuario("wala","woolo");
-		em.persist(usr);
-		
-		em.getTransaction().commit();
-		em.close();
+//		Usuario usr = new Usuario("wala","woolo");
+//		em.persist(usr);
+//		
+//		em.getTransaction().commit();
+//		em.close();
   	}
   
   	public Map<String, Todo> getModel()
