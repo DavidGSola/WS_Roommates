@@ -55,7 +55,6 @@ public class UsuarioResource {
 	{
 		Usuario usr = BDUsuario.seleccionarUsuario(email);
 		if(usr!=null) {
-			BDUsuario.eliminar(usr);
 			
 			for (Compra c : BDCompra.listarCompras()) 
 				if (c.getUsuario().getEmail().equals(usr.getEmail())) 
@@ -63,6 +62,8 @@ public class UsuarioResource {
 			
 			for (Factura f : BDFactura.listarFacturas()) 
 				BDFactura.marcarPagada(f, usr);
+
+			BDUsuario.eliminar(usr);
 			
 			return new Respuesta(false, "Delete: Usuario " + email + " eliminada");
 		}
