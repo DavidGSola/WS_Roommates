@@ -3,6 +3,7 @@ package com.mio.jersey.todo.dao;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -72,9 +73,7 @@ public class BDCompra {
 		antiguo.setUrgente(false);
 		
 		// Se actualiza la fecha a la actual
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-		Calendar cal = Calendar.getInstance();
-		antiguo.setFecha(dateFormat.format(cal.getTime()));
+		antiguo.setFecha(new Date().getTime()+"");
 	
 		Usuario usuarioAnterior = antiguo.getUsuario();
 		List<Usuario> usuarios = BDUsuario.listarUsuarios();
