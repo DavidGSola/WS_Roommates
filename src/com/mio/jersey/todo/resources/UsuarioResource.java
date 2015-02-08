@@ -14,6 +14,7 @@ import javax.xml.bind.JAXBElement;
 
 import com.mio.jersey.todo.dao.BDUsuario;
 import com.mio.jersey.todo.dao.TodoDao;
+import com.mio.jersey.todo.modelo.Respuesta;
 import com.mio.jersey.todo.modelo.Todo;
 import com.mio.jersey.todo.modelo.Usuario;
 
@@ -31,7 +32,6 @@ public class UsuarioResource {
 		this.email = email;
 	}
 
-	//Integracion de aplicaciones 
 	@GET
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
 	public Usuario getUsuario() 
@@ -43,35 +43,37 @@ public class UsuarioResource {
 		return usr;
 	}
 
-	@PUT
-	@Consumes(MediaType.APPLICATION_XML)
-	public Response putTodo(JAXBElement<Todo> todo) 
-	{
-		Todo c = todo.getValue();
-		
-		return putAndGetResponse(c);
-	}
+//	@PUT
+//	@Consumes(MediaType.APPLICATION_XML)
+//	public Response put(JAXBElement<Todo> todo) 
+//	{
+//		Todo c = todo.getValue();
+//		
+//		return putAndGetResponse(c);
+//	}
 
 	@DELETE
-	public void deleteTodo() 
+	public Respuesta delete() 
 	{
 		Usuario usr = BDUsuario.seleccionarUsuario(email);
-		if(usr!=null)
+		if(usr!=null) {
 			BDUsuario.eliminar(usr);
+			return new Respuesta(false, "Delete: Usuario " + email + " eliminada");
+		}
 		else 
-			throw new RuntimeException("Delete: Todo con " + email + " no se ha encontrado");
+			return new Respuesta(false, "Delete: Usuario " + email + " no encontrado");
 	}
 
-	private Response putAndGetResponse(Todo todo) 
-	{
-		Response res;
-		if(TodoDao.instance.getModel().containsKey(todo.getId()))
-			res = Response.noContent().build();
-		else 
-			res = Response.created(uriInfo.getAbsolutePath()).build();
-		
-		TodoDao.instance.getModel().put(todo.getId()+"", todo);
-		
-		return res;
-	}
+//	private Response putAndGetResponse(Todo todo) 
+//	{
+//		Response res;
+//		if(TodoDao.instance.getModel().containsKey(todo.getId()))
+//			res = Response.noContent().build();
+//		else 
+//			res = Response.created(uriInfo.getAbsolutePath()).build();
+//		
+//		TodoDao.instance.getModel().put(todo.getId()+"", todo);
+//		
+//		return res;
+//	}
 } 
