@@ -61,7 +61,7 @@ public class UsuarioResource {
 			return new Respuesta(false, "Delete: Usuario " + email + " eliminada");
 		}
 		else 
-			return new Respuesta(false, "Delete: Usuario " + email + " no encontrado");
+			return new Respuesta(true, "Delete: Usuario " + email + " no encontrado");
 	}
 
 //	private Response putAndGetResponse(Todo todo) 
