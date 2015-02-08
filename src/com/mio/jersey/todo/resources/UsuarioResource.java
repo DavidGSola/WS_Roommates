@@ -1,5 +1,7 @@
 package com.mio.jersey.todo.resources;
 
+import java.util.List;
+
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
@@ -55,14 +57,26 @@ public class UsuarioResource {
 	{
 		Usuario usr = BDUsuario.seleccionarUsuario(email);
 		if(usr!=null) {
+			List<Usuario> usuarios = BDUsuario.listarUsuarios();
+			if(usuarios.size() > 1)
+			{
+				for (Compra c : BDCompra.listarCompras()) 
+					if (c.getUsuario().getEmail().equals(usr.getEmail())) 
+						BDCompra.marcarComprado(c);
+				
+				for (Factura f : BDFactura.listarFacturas()) 
+					BDFactura.marcarPagada(f, usr);
+	
+			}else
+			{
+				for (Compra c : BDCompra.listarCompras()) 
+					if (c.getUsuario().getEmail().equals(usr.getEmail())) 
+						BDCompra.eliminar(c);
+				
+				for (Factura f : BDFactura.listarFacturas()) 
+					BDFactura.eliminar(f);
+			}
 			
-			for (Compra c : BDCompra.listarCompras()) 
-				if (c.getUsuario().getEmail().equals(usr.getEmail())) 
-					BDCompra.marcarComprado(c);
-			
-			for (Factura f : BDFactura.listarFacturas()) 
-				BDFactura.marcarPagada(f, usr);
-
 			BDUsuario.eliminar(usr);
 			
 			return new Respuesta(false, "Delete: Usuario " + email + " eliminada");
