@@ -1,21 +1,19 @@
 package com.mio.jersey.todo.resources;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import javax.xml.bind.JAXBElement;
 
+import com.mio.jersey.todo.dao.BDCompra;
+import com.mio.jersey.todo.dao.BDFactura;
 import com.mio.jersey.todo.dao.BDUsuario;
-import com.mio.jersey.todo.dao.TodoDao;
+import com.mio.jersey.todo.modelo.Compra;
+import com.mio.jersey.todo.modelo.Factura;
 import com.mio.jersey.todo.modelo.Respuesta;
-import com.mio.jersey.todo.modelo.Todo;
 import com.mio.jersey.todo.modelo.Usuario;
 
 public class UsuarioResource {
@@ -58,6 +56,14 @@ public class UsuarioResource {
 		Usuario usr = BDUsuario.seleccionarUsuario(email);
 		if(usr!=null) {
 			BDUsuario.eliminar(usr);
+			
+			for (Compra c : BDCompra.listarCompras()) 
+				if (c.getUsuario().getEmail().equals(usr.getEmail())) 
+					BDCompra.marcarComprado(c);
+			
+			for (Factura f : BDFactura.listarFacturas()) 
+				BDFactura.marcarPagada(f, usr);
+			
 			return new Respuesta(false, "Delete: Usuario " + email + " eliminada");
 		}
 		else 
