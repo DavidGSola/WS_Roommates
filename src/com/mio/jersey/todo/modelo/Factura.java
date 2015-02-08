@@ -41,12 +41,12 @@ public class Factura
 		this.usuariosSinPagar = new ArrayList<Usuario> (usuarios);
 	}
 	
-	public List<Usuario> getUsuarios() 
+	public List<Usuario> getUsuariosSinPagar() 
 	{
 		return usuariosSinPagar;
 	}
 
-	public void setUsuarios(List<Usuario> usuarios) 
+	public void setUsuariosSinPagar(List<Usuario> usuarios) 
 	{
 		this.usuariosSinPagar = new ArrayList<Usuario> (usuarios);
 	}
@@ -103,8 +103,8 @@ public class Factura
 	
 	/**
 	 * Elimina un usuario de la lista de usuarios a pagar
-	 * a partir de su posición
-	 * @param index Posición del usuario en la lista
+	 * a partir de su posicion
+	 * @param index Posicion del usuario en la lista
 	 */
 	public void quitarUsuario(int index)
 	{

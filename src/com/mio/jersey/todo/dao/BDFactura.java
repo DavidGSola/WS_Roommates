@@ -45,7 +45,7 @@ public class BDFactura {
 
 		em.getTransaction().begin();
 		
-		List<Usuario> usuariosAPagar = antiguo.getUsuarios();
+		List<Usuario> usuariosAPagar = antiguo.getUsuariosSinPagar();
 
 		// Se obtiene el id del usuario siguiente a partir del anterior
 		for(int i=0; i<usuariosAPagar.size(); i++)
