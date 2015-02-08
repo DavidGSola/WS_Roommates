@@ -17,10 +17,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.UriInfo;
 
-import com.mio.jersey.todo.dao.BDCompra;
 import com.mio.jersey.todo.dao.BDFactura;
 import com.mio.jersey.todo.dao.BDUsuario;
-import com.mio.jersey.todo.modelo.Compra;
 import com.mio.jersey.todo.modelo.Factura;
 import com.mio.jersey.todo.modelo.Respuesta;
 import com.mio.jersey.todo.modelo.Usuario;
@@ -62,12 +60,13 @@ public class FacturasResource {
 	public Respuesta nueva(@FormParam("email") String usuario, @FormParam("nombre") String nombre, @FormParam("descripcion") String descripcion, @FormParam("cantidad") double cantidad, @Context HttpServletResponse servletResponse) throws IOException 
 	{
 		Usuario usr = BDUsuario.seleccionarUsuario(usuario);
+		List<Usuario> usuarios = BDUsuario.listarUsuarios();
 		
 		if (usr != null) {
 			String fecha = new Date().getTime()+"";
-			Factura f = new Factura(nombre, descripcion, fecha, cantidad, usuario);
+			Factura f = new Factura(nombre, descripcion, fecha, cantidad, usuarios);
 			BDFactura.insertar(f);
-			return new Respuesta(false, "Compra aniadida correctamente");
+			return new Respuesta(false, "Factura aniadida correctamente");
 		} else {
 			return new Respuesta(true, "Usuario inexistente");
 		}
