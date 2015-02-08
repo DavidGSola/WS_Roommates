@@ -1,7 +1,9 @@
 package com.mio.jersey.todo.resources;
 
 import java.io.IOException;
-import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -55,10 +57,11 @@ public class ComprasResource {
 	public Respuesta nueva(@FormParam("email") String usuario, @FormParam("descripcion") String descripcion, @FormParam("nombre") String nombre, @Context HttpServletResponse servletResponse) throws IOException 
 	{
 		Usuario usr = BDUsuario.seleccionarUsuario(usuario);
-		
 		if (usr != null) {
-			String fecha = new Date().getTime()+"";
-			Compra c = new Compra(usr, nombre, descripcion, fecha);
+			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+			Calendar cal = Calendar.getInstance();
+			
+			Compra c = new Compra(usr, nombre, descripcion, dateFormat.format(cal.getTime()));
 			BDCompra.insertar(c);
 			return new Respuesta(false, "Compra aniadida correctamente");
 		} else {
